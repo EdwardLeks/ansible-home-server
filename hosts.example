@@ -1,0 +1,4 @@
+server-name ansible_host=CHANGEME ansible_user=CHANGEME
+
+[home_server]
+server-name

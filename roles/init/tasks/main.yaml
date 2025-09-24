@@ -1,0 +1,19 @@
+- name: Update APT cache
+  ansible.builtin.apt:
+    cache_valid_time: 86400
+
+- name: Check current IP of interface
+  ansible.builtin.set_fact:
+    current_ip: "{{ hostvars[inventory_hostname]['ansible_' + iface_name]['ipv4']['address'] }}"
+  when: "'ansible_' + iface_name in hostvars[inventory_hostname]"
+
+# Change network adapter IP to static
+- name: Deploy /etc/network/interfaces
+  ansible.builtin.template:
+    src: ../templates/interfaces.j2
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: '0644'
+  when: current_ip is not defined or current_ip != iface_ip
+  notify: Restart networking

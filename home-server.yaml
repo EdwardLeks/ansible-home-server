@@ -1,0 +1,6 @@
+---
+- name: Initial setup
+  hosts: all
+  roles:
+    - init
+  tags: init

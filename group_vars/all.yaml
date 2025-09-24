@@ -1,0 +1,5 @@
+# Network interface
+iface_name: 'enp2s0'
+iface_ip: '10.0.0.20'
+iface_gateway: '10.0.0.1'
+# (Optional) iface_mask: '255.255.255.0'
