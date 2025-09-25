@@ -4,3 +4,15 @@
   roles:
     - init
   tags: init
+
+- name: Docker setup
+  hosts: all
+  roles:
+    - docker
+  tags: docker
+
+- name: Portainer setup
+  hosts: all
+  roles:
+    - portainer
+  tags: portainer

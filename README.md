@@ -6,6 +6,7 @@ This repository contains an Ansible setup for configuring your home server.
 
 ## Requirements
 
+- Debian Server
 - Ansible installed on your control machine
 - SSH access to the server
 
@@ -64,6 +65,39 @@ my-home-server
 
 Replace 10.0.0.115 (or whatever IP you had) with the new static IP you configured in variables.
 
-### 4. Continue with Other Tasks
+### 4. Install Docker
+
+Once your server has a static IP, you can install Docker using Ansible:
+
+```bash
+ansible-playbook home-server.yaml -K --tags docker
+```
+
+This sets up Docker so you can run applications in isolated containers.
+
+**Optional: Install Portainer**
+
+Portainer is a web interface for managing Docker. It lets you:
+
+- See running containers
+- Start, stop, or restart containers
+- View logs and settings
+- Create new containers without the command line
+
+Install it with:
+
+```bash
+ansible-playbook home-server.yaml -K --tags portainer
+```
+
+After installation, open a browser and go to:
+
+```bash
+https://<your-server-ip>:9443
+```
+
+Create an admin account, and you can manage Docker visually. Portainer is optional but convenient.
+
+### 5. Continue with Other Tasks
 
 In development
