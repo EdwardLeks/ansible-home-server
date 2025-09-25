@@ -16,3 +16,9 @@
   roles:
     - portainer
   tags: portainer
+
+- name: Home Assistant setup
+  hosts: all
+  roles:
+    - homeassistant
+  tags: ha

@@ -98,6 +98,30 @@ https://<your-server-ip>:9443
 
 Create an admin account, and you can manage Docker visually. Portainer is optional but convenient.
 
-### 5. Continue with Other Tasks
+### 5. Install Home Assistant
+
+After docker is installed, deploy Home Assistant with:
+
+```bash
+ansible-playbook home-server.yaml -K --tags ha
+```
+
+Default config path is /opt/homeassistant/config (can be changed in group_vars/all.yaml).
+
+Access Home Assistant at:
+
+```bash
+http://<your-server-ip>:8123
+```
+
+and create your smart home. You can find official documentation on how to set it up [here](https://www.home-assistant.io/getting-started/onboarding/).
+
+To update Home Assistant use:
+
+```bash
+ansible-playbook home-server.yaml -K --tags ha -e ha_action=update
+```
+
+### 6. Continue with Other Tasks
 
 In development

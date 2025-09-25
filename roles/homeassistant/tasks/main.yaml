@@ -1,0 +1,38 @@
+---
+- name: Ensure homeassistant directory exists
+  file:
+    path: '{{ ha_compose_dir }}'
+    state: directory
+    mode: '0755'
+
+- name: Deploy docker-compose.yaml
+  template:
+    src: '../templates/docker-compose.yaml.j2'
+    dest: '{{ ha_compose_dir }}/docker-compose.yaml'
+    mode: '0644'
+
+# Default deploy/start task
+- name: Start Home Assistant via docker compose
+  community.docker.docker_compose_v2:
+    project_src: '{{ ha_compose_dir }}'
+    state: present
+  when: ha_action is not defined or ha_action == "deploy"
+
+# Update task (down + pull + up)
+- name: Update Home Assistant (docker compose down, pull, up)
+  block:
+    - name: Stop stack
+      community.docker.docker_compose_v2:
+        project_src: '{{ ha_compose_dir }}'
+        state: absent
+
+    - name: Pull latest image
+      command: docker compose pull
+      args:
+        chdir: '{{ ha_compose_dir }}'
+
+    - name: Start stack again
+      community.docker.docker_compose_v2:
+        project_src: '{{ ha_compose_dir }}'
+        state: present
+  when: ha_action is defined and ha_action == "update"
