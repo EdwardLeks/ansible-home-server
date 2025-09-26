@@ -16,7 +16,22 @@
   community.docker.docker_compose_v2:
     project_src: '{{ ha_compose_dir }}'
     state: present
-  when: ha_action is not defined or ha_action == "deploy"
+  when: ha_action is not defined
+
+# Install and enable BlueZ if Bluetooth support is requested (use_bluetooth variable)
+- name: Install BlueZ if Bluetooth is present
+  apt:
+    name: bluez
+    state: present
+  when: use_bluetooth
+
+- name: Enable Bluetooth service
+  systemd:
+    name: bluetooth
+    enabled: true
+    state: started
+  when: use_bluetooth
+  notify: Restart Home Assistant
 
 # Update task (down + pull + up)
 - name: Update Home Assistant (docker compose down, pull, up)

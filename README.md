@@ -108,6 +108,21 @@ ansible-playbook home-server.yaml -K --tags ha
 
 Default config path is /opt/homeassistant/config (can be changed in group_vars/all.yaml).
 
+You can configure USB devices and Bluetooth in group_vars/all.yaml:
+
+```yaml
+usb_devices:
+  [
+    '/dev/serial/by-id/usb-ITead_Sonoff_Zigbee-if00-port0',
+    '/dev/serial/by-id/other_device',
+  ]
+use_bluetooth: false # set to true if you want Bluetooth support
+```
+
+- Finding your Zigbee USB: run ls /dev/serial/by-id/ — look for a device like usb-manufacturer-if00-port0.
+
+- Enabling Bluetooth: set use_bluetooth: true. The playbook will install and start BlueZ automatically if you have a dongle.
+
 Access Home Assistant at:
 
 ```bash

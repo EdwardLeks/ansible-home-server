@@ -4,5 +4,13 @@ iface_ip: '10.0.0.20'
 iface_gateway: '10.0.0.1'
 # (Optional) iface_mask: '255.255.255.0'
 
+# Home Assistant Configuration path
 ha_config_path: '/opt/homeassistant/config'
 ha_compose_dir: '/opt/homeassistant'
+
+# Devices
+usb_devices:
+  [
+    '/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_2af7db3d7c45ed118a32ca8f0a86e0b4-if00-port0',
+  ]
+use_bluetooth: true
