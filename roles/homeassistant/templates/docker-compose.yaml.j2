@@ -9,7 +9,9 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host
+{% if usb_devices | length > 0 %}
     devices:
 {% for dev in usb_devices %}
       - "{{ dev }}:{{ dev }}"
 {% endfor %}
+{% endif %}

@@ -22,3 +22,9 @@
   roles:
     - homeassistant
   tags: ha
+
+- name: Remote Access setup
+  hosts: all
+  roles:
+    - vpn
+  tags: vpn

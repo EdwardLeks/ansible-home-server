@@ -1,0 +1,19 @@
+# Network interface
+iface_name: 'enp2s0'
+iface_ip: '192.168.1.10'
+iface_gateway: '192.168.1.1'
+# (Optional) iface_mask: '255.255.255.0'
+
+# Home Assistant Configuration path
+ha_config_path: '/opt/homeassistant/config'
+ha_compose_dir: '/opt/homeassistant'
+
+# Devices
+usb_devices: []
+use_bluetooth: false
+
+# Remote Access - cloudflare, tailscale or wireguard
+vpn_provider: "cloudflare"
+
+# Remote Access Setting
+cloudflare_token: "YOUR_TOKEN_FROM_CLOUDFLARE"

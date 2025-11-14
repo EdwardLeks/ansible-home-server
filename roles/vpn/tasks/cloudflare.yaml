@@ -1,0 +1,31 @@
+- name: Run Cloudflared container
+  community.docker.docker_container:
+    name: cloudflared
+    image: cloudflare/cloudflared:latest
+    state: started
+    network_mode: host
+    restart_policy: always
+    command: >
+      tunnel --no-autoupdate run --token {{ cloudflare_token }}
+
+- name: Compute HA trusted network
+  set_fact:
+    ha_trusted_network: "{{ iface_ip | regex_replace('\\d+$','0') }}/24"
+
+- name: Add http block to HA config for reverse proxy
+  blockinfile:
+    path: /opt/homeassistant/config/configuration.yaml
+    marker: "# {mark} ANSIBLE HTTP BLOCK"
+    block: |
+      http:
+        use_x_forwarded_for: true
+        trusted_proxies:
+          - 127.0.0.1
+          - ::1
+          - {{ ha_trusted_network }}
+
+- name: Restart Home Assistant container if http block changed
+  docker_container:
+    name: homeassistant
+    state: started
+    restart: yes

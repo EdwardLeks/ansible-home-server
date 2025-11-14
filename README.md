@@ -12,6 +12,23 @@ This repository contains an Ansible setup for configuring your home server.
 
 ---
 
+## SSH Setup
+
+Install Open SSH Server on Debian Machine. It can can be installed durin Debian setup.
+
+On yor host machine run
+
+```bash
+ssh-keygen
+ssh-copy-id username@client-ip
+```
+
+And then connect 
+
+```bash
+ssh username@client-ip
+```
+
 ## Setup Instructions
 
 ### 1. Create hosts file
@@ -28,7 +45,7 @@ my-home-server
 
 ### 2. Configure Variables
 
-Before running any playbooks, you need to set your network configuration in `group_vars/all.yaml`:
+Before running any playbooks, copy or rename 'all.yaml.example' into 'all.yaml' file. After that you need to set your network configuration in `group_vars/all.yaml`:
 
 ```yaml
 iface_name: 'enp2s0' # your network interface name
@@ -137,6 +154,29 @@ To update Home Assistant use:
 ansible-playbook home-server.yaml -K --tags ha -e ha_action=update
 ```
 
-### 6. Continue with Other Tasks
+### 6. Setup Remote Connection
+
+To enable remote access, choose your VPN provider in group_vars and run the VPN tag:
+
+```bash
+ansible-playbook home-server.yaml -K --tags vpn
+```
+
+Provider-specific setup instructions are listed below.
+
+#### 6.1 Cloudflare
+
+To enable remote access through Cloudflare Tunnel, set the VPN provider and add your Cloudflare Tunnel token:
+
+```yaml
+vpn_provider: cloudflare
+cloudflare_token: "YOUR_TUNNEL_TOKEN"
+```
+
+#### 6.2 Tailscale
+
+#### 6.3 Wireguard
+
+### 7. Continue with Other Tasks
 
 In development
