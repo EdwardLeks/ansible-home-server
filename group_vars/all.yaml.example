@@ -17,3 +17,4 @@ vpn_provider: "cloudflare"
 
 # Remote Access Setting
 cloudflare_token: "YOUR_TOKEN_FROM_CLOUDFLARE"
+tailscale_auth_key: "tskey-auth-key"

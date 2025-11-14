@@ -169,11 +169,20 @@ Provider-specific setup instructions are listed below.
 To enable remote access through Cloudflare Tunnel, set the VPN provider and add your Cloudflare Tunnel token:
 
 ```yaml
-vpn_provider: cloudflare
+vpn_provider: "cloudflare"
 cloudflare_token: "YOUR_TUNNEL_TOKEN"
 ```
 
 #### 6.2 Tailscale
+
+To enable remote access with Tailscale, set the VPN provider and add your Tailscale Auth key. Key can be found in Tailscale dashboard Settings > Personal Settings > Keys > Auth keys
+
+```yaml
+vpn_provider: "tailscale"
+tailscale_auth_key: "tskey-auth-key"
+```
+
+Setup your other devices to use Tailscale as VPN and access your services through Tailscale VPN.
 
 #### 6.3 Wireguard
 
