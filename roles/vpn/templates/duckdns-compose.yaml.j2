@@ -1,0 +1,8 @@
+services:
+  duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    environment:
+      - SUBDOMAINS={{ duckdns_subdomains }}
+      - TOKEN={{ duckdns_token }}
+    restart: unless-stopped

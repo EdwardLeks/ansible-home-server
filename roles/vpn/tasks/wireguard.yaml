@@ -1,0 +1,48 @@
+- name: Create DuckDNS config directory
+  file:
+    path: /opt/duckdns
+    state: directory
+    mode: '0755'
+
+- name: Deploy DuckDNS docker-compose
+  template:
+    src: duckdns-compose.yaml.j2
+    dest: /opt/duckdns/docker-compose.yaml
+  notify: Restart DuckDNS
+
+- name: Bring up DuckDNS
+  community.docker.docker_compose_v2:
+    project_src: /opt/duckdns
+    state: present
+
+- name: Create WireGuard config directory
+  file:
+    path: /opt/wireguard
+    state: directory
+    mode: '0755'
+    
+- name: Deploy WireGuard docker-compose
+  template:
+    src: wireguard-compose.yaml.j2
+    dest: /opt/wireguard/docker-compose.yaml
+  notify: Restart WireGuard
+
+- name: Bring up WireGuard
+  community.docker.docker_compose_v2:
+    project_src: /opt/wireguard
+    state: present
+
+# Copy WireGuard client configs back to control machine
+- name: Fetch WireGuard client configs
+  fetch:
+    src: '/opt/wireguard/config/peer_{{ item }}/peer_{{ item }}.conf'
+    dest: './wireguard-configs/'
+    flat: yes
+  loop: '{{ wireguard_peers }}'
+
+- name: Fetch WireGuard client QR codes
+  fetch:
+    src: '/opt/wireguard/config/peer_{{ item }}/peer_{{ item }}.png'
+    dest: './wireguard-configs/'
+    flat: yes
+  loop: '{{ wireguard_peers }}'

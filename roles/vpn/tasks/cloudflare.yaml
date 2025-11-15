@@ -1,12 +1,19 @@
-- name: Run Cloudflared container
-  community.docker.docker_container:
-    name: cloudflared
-    image: cloudflare/cloudflared:latest
-    state: started
-    network_mode: host
-    restart_policy: always
-    command: >
-      tunnel --no-autoupdate run --token {{ cloudflare_token }}
+- name: Create Cloudflare config directory
+  file:
+    path: /opt/cloudflare
+    state: directory
+    mode: '0755'
+
+- name: Deploy Cloudflare docker-compose
+  template:
+    src: cloudflare-compose.yaml.j2
+    dest: /opt/cloudflare/docker-compose.yaml
+  notify: Restart Cloudflare
+
+- name: Bring up Cloudflare
+  community.docker.docker_compose_v2:
+    project_src: /opt/cloudflare
+    state: present
 
 - name: Compute HA trusted network
   set_fact:

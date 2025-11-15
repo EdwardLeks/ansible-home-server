@@ -1,0 +1,19 @@
+- name: Restart DuckDNS
+  community.docker.docker_compose_v2:
+    project_src: /opt/duckdns
+    state: restarted
+
+- name: Restart Cloudflare
+  community.docker.docker_compose_v2:
+    project_src: /opt/cloudflare
+    state: restarted
+
+- name: Restart Tailscale
+  community.docker.docker_compose_v2:
+    project_src: /opt/tailscale
+    state: restarted
+
+- name: Restart WireGuard
+  community.docker.docker_compose_v2:
+    project_src: /opt/wireguard
+    state: restarted

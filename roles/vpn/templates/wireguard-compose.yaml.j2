@@ -1,0 +1,20 @@
+services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - SERVERURL={{ wireguard_server_url }}
+      - SERVERPORT={{ wireguard_server_port }}
+      - PEERS={{ wireguard_peers | join(',') }}
+      - PEERDNS=auto
+    volumes:
+      - /opt/wireguard/config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - "{{ wireguard_server_port }}:{{ wireguard_server_port }}/udp"
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped

@@ -12,9 +12,19 @@ ha_compose_dir: '/opt/homeassistant'
 usb_devices: []
 use_bluetooth: false
 
-# Remote Access - cloudflare, tailscale or wireguard
-vpn_provider: "cloudflare"
+# Remote Access. Options: cloudflare, tailscale, wireguard. Can be multiple or none
+vpn_providers: ['cloudflare', 'tailscale', 'wireguard']
 
-# Remote Access Setting
+# Cloudflare Setting
 cloudflare_token: "YOUR_TOKEN_FROM_CLOUDFLARE"
+
+# Tailscale Setting
 tailscale_auth_key: "tskey-auth-key"
+
+# Wireguard Setting
+duckdns_subdomains: 'CHANGEME.duckdns.org'
+duckdns_token: 'YOUR_TOKEN_FROM_DUCKDNS'
+
+wireguard_server_url: 'CHANGEME.duckdns.org'
+wireguard_server_port: 51820
+wireguard_peers: ['iphone', 'laptop', 'tablet'] # as many peers as you have

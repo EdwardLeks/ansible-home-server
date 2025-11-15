@@ -161,15 +161,14 @@ To enable remote access, choose your VPN provider in group_vars and run the VPN 
 ```bash
 ansible-playbook home-server.yaml -K --tags vpn
 ```
-
-Provider-specific setup instructions are listed below.
+You can choose multiple provides inside the array. Provider-specific setup instructions are listed below.
 
 #### 6.1 Cloudflare
 
 To enable remote access through Cloudflare Tunnel, set the VPN provider and add your Cloudflare Tunnel token:
 
 ```yaml
-vpn_provider: "cloudflare"
+vpn_provider: ['cloudflare']
 cloudflare_token: "YOUR_TUNNEL_TOKEN"
 ```
 
@@ -178,7 +177,7 @@ cloudflare_token: "YOUR_TUNNEL_TOKEN"
 To enable remote access with Tailscale, set the VPN provider and add your Tailscale Auth key. Key can be found in Tailscale dashboard Settings > Personal Settings > Keys > Auth keys
 
 ```yaml
-vpn_provider: "tailscale"
+vpn_provider: ['tailscale']
 tailscale_auth_key: "tskey-auth-key"
 ```
 
@@ -186,6 +185,17 @@ Setup your other devices to use Tailscale as VPN and access your services throug
 
 #### 6.3 Wireguard
 
-### 7. Continue with Other Tasks
+To enable WireGuard in this setup, you must configure your DuckDNS domain, token, and define the peers you want to generate client configs for.
 
-In development
+```yaml
+vpn_provider: ['wireguard']
+
+duckdns_subdomains: 'CHANGEME.duckdns.org'
+duckdns_token: 'YOUR_TOKEN_FROM_DUCKDNS'
+
+wireguard_server_url: 'CHANGEME.duckdns.org'
+wireguard_server_port: 51820
+wireguard_peers: ['iphone', 'laptop', 'tablet'] # as many peers as you have
+```
+
+After setup, you will find your connection configuration in /wireguard-configs folder.

@@ -1,17 +1,16 @@
-- name: Run Tailscale container
-  community.docker.docker_container:
-    name: tailscale
-    image: tailscale/tailscale:latest
-    state: started
-    restart_policy: always
-    network_mode: host
-    capabilities:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    env:
-      TS_AUTHKEY: "{{ tailscale_auth_key }}"
-      TS_STATE_DIR: "/var/lib/tailscale"
-      TS_USERSPACE: "false"
-    volumes:
-      - /var/lib/tailscale:/var/lib/tailscale
+- name: Create Tailscale config directory
+  file:
+    path: /opt/tailscale
+    state: directory
+    mode: '0755'
+
+- name: Deploy Tailscale docker-compose
+  template:
+    src: tailscale-compose.yaml.j2
+    dest: /opt/tailscale/docker-compose.yaml
+  notify: Restart Tailscale
+
+- name: Bring up Tailscale
+  community.docker.docker_compose_v2:
+    project_src: /opt/tailscale
+    state: present

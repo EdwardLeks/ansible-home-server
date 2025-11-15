@@ -1,7 +1,9 @@
-- name: Validate vpn_provider
+- name: Validate vpn_providers
   fail:
-    msg: "Invalid vpn_provider '{{ vpn_provider }}'. Choose cloudflare, wireguard, or tailscale."
-  when: vpn_provider not in ['cloudflare', 'wireguard', 'tailscale']
+    msg: "Invalid vpn provider found. Valid options: cloudflare, wireguard, tailscale."
+  when: vpn_providers | difference(['cloudflare', 'tailscale', 'wireguard']) | length > 0
 
-- name: Choose VPN provider
-  include_tasks: "{{ vpn_provider }}.yaml"
+- name: Include VPN providers
+  include_tasks: "{{ item }}.yaml"
+  loop: "{{ vpn_providers }}"
+  when: vpn_providers | length > 0
